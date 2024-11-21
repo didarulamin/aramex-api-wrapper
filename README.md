@@ -1,8 +1,10 @@
 # Aramex API Wrapper
 
-A lightweight Node.js wrapper for Aramex's SOAP API to manage shipments, tracking, and label printing.
+A lightweight Node.js wrapper for Aramex's SOAP API to manage shipments, tracking, and label printing for Zid platform order management.
 
 ---
+
+[Project github](https://github.com/didarulamin/aramex-api-wrapper)
 
 ## Features
 
