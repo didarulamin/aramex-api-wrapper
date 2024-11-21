@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions
+    name="Service_1_0"
+    targetNamespace="http://ws.aramex.net/ShippingAPI/v1/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+    xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
+    xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+    xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+    xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:tns="http://ws.aramex.net/ShippingAPI/v1/"
+    xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+    xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+    xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+
+    <wsp:Policy wsu:Id="BasicHttpBinding_Service_1_01_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:TransportToken>
+                            <wsp:Policy>
+                                <sp:HttpsToken RequireClientCertificate="false"/>
+                            </wsp:Policy>
+                        </sp:TransportToken>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic256/>
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:Layout>
+                            <wsp:Policy>
+                                <sp:Strict/>
+                            </wsp:Policy>
+                        </sp:Layout>
+                    </wsp:Policy>
+                </sp:TransportBinding>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+
+    <wsdl:types>
+        <xs:schema
+            elementFormDefault="qualified"
+            targetNamespace="http://ws.aramex.net/ShippingAPI/v1/"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+
+            <xs:element name="ShipmentTrackingRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="ClientInfo" nillable="true" type="tns:ClientInfo"/>
+                        <xs:element minOccurs="0" name="Transaction" nillable="true" type="tns:Transaction"/>
+                        <xs:element minOccurs="0" name="Shipments" nillable="true" type="q1:ArrayOfstring" xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+                        <xs:element minOccurs="0" name="GetLastTrackingUpdateOnly" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:complexType name="ClientInfo">
+                <xs:sequence>
+                    <xs:element name="UserName" nillable="true" type="xs:string"/>
+                    <xs:element name="Password" nillable="true" type="xs:string"/>
+                    <xs:element name="Version" nillable="true" type="xs:string"/>
+                    <xs:element name="AccountNumber" nillable="true" type="xs:string"/>
+                    <xs:element name="AccountPin" nillable="true" type="xs:string"/>
+                    <xs:element name="AccountEntity" nillable="true" type="xs:string"/>
+                    <xs:element name="AccountCountryCode" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Source" type="xs:int"/>
+                    <xs:element minOccurs="0" name="PreferredLanguageCode" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:complexType name="Transaction">
+                <xs:sequence>
+                    <xs:element name="Reference1" nillable="true" type="xs:string"/>
+                    <xs:element name="Reference2" nillable="true" type="xs:string"/>
+                    <xs:element name="Reference3" nillable="true" type="xs:string"/>
+                    <xs:element name="Reference4" nillable="true" type="xs:string"/>
+                    <xs:element name="Reference5" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+
+    <wsdl:message name="ShipmentTrackingRequest">
+        <wsdl:part name="parameters" element="tns:ShipmentTrackingRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="ShipmentTrackingResponse">
+        <wsdl:part name="parameters" element="tns:ShipmentTrackingResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="Service_1_0">
+        <wsdl:operation name="TrackShipments">
+            <wsdl:input wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/TrackShipments" name="ShipmentTrackingRequest" message="tns:ShipmentTrackingRequest"/>
+            <wsdl:output wsaw:Action="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/TrackShipmentsResponse" name="ShipmentTrackingResponse" message="tns:ShipmentTrackingResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="BasicHttpBinding_Service_1_0" type="tns:Service_1_0">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="TrackShipments">
+            <soap:operation soapAction="http://ws.aramex.net/ShippingAPI/v1/Service_1_0/TrackShipments" style="document"/>
+            <wsdl:input name="ShipmentTrackingRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="ShipmentTrackingResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="Service_1_0">
+        <wsdl:port name="BasicHttpBinding_Service_1_0" binding="tns:BasicHttpBinding_Service_1_0">
+            <soap:address location="http://ws.aramex.net/ShippingAPI.V2/Tracking/Service_1_0.svc"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
